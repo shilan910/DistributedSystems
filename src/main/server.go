@@ -13,15 +13,29 @@ import (
 type Watcher int
 
 var validateIPs map[string]string
+var ipNow = ""
+var cnt = 0
 
 func (w *Watcher) GetServerTime(arg string, localTime *time.Time) error {
-	fmt.Println(arg)
-
+	if ipNow != arg {
+		fmt.Println("\n收到ip为",arg,"的client的请求")
+		ipNow = arg
+	}
 	if _, v := validateIPs[arg]; v {
 		*localTime = time.Now()
-		fmt.Println(*localTime)
+		cnt ++
+	}else{
+		ipNow = ""
+		cnt = 0
+	}
+	if cnt == 1 {
+		fmt.Println("当前时间为：\n", *localTime)
 	}
 
+	if cnt == 100 {
+		ipNow = ""
+		cnt = 0
+	}
 	return nil
 }
 
@@ -49,7 +63,7 @@ func main() {
 	if err != nil {
 		fmt.Println("监听失败，端口可能已经被占用")
 	}
-	fmt.Println("正在监听1234端口")
+	fmt.Println("server正在监听1234端口")
 	http.Serve(l, nil)
 
 }
