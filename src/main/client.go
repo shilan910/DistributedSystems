@@ -21,7 +21,7 @@ func getLocalIP() (ip string) {
 }
 
 func main() {
-	clint, err := rpc.DialHTTP("tcp", "127.0.0.1:1234")
+	clint, err := rpc.DialHTTP("tcp", "114.212.87.65:1234")
 	if err != nil {
 		fmt.Println("服务出错0：", err)
 	}
@@ -38,7 +38,7 @@ func main() {
 			fmt.Println("服务出错1：", err)
 		}
 		if i == 1 {
-			fmt.Println(localTime)
+			//fmt.Println(localTime)
 			serverTime0 = serverTime
 			loaclTime0 = localTime
 		}
@@ -52,14 +52,14 @@ func main() {
 	localTimeDiff = localTime.Sub(loaclTime0)
 	serverTimeDiff = serverTime.Sub(serverTime0)
 
-	fmt.Println("localTimeDiff : ", localTimeDiff)
-	fmt.Println("serverTimeDiff : ", serverTimeDiff)
-	fmt.Println("serverTimeDiff-localTimeDiff : ", serverTimeDiff-localTimeDiff)
+	//fmt.Println("localTimeDiff : ", localTimeDiff)
+	//fmt.Println("serverTimeDiff : ", serverTimeDiff)
+	//fmt.Println("sigma : ", localTimeDiff-serverTimeDiff)
 
 	minSigma -= serverTimeDiff-localTimeDiff
 
-	fmt.Println("serverTime0 : ", serverTime0)
-	fmt.Println("min_sigma : ", minSigma/2)
-	fmt.Println("client get time :", serverTime0.Add(minSigma/2))
+	fmt.Println("serverTime : ", serverTime0)
+	fmt.Println("sigma : ", minSigma/2)
+	fmt.Println("real time from server:", serverTime0.Add(minSigma/2))
 
 }
